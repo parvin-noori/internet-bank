@@ -1,6 +1,12 @@
 export default function InputGroup(props) {
-  const { label, id, placeholder, onChange, type = "text" } = props;
-
+  const {
+    label,
+    id,
+    placeholder,
+    onChange,
+    type = "text",
+    method = register,
+  } = props;
   return (
     <div className="flex flex-col text-white space-y-3">
       <label htmlFor={id}>{label}</label>
@@ -12,7 +18,7 @@ export default function InputGroup(props) {
         placeholder={placeholder}
         className="bg-input  rounded-[8px] py-4 px-5 border-[#4B5563] h-[42px] outline-none"
         autoComplete="new-password"
-        required
+        {...method(id, { require: true })}
       />
     </div>
   );

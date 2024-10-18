@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { InputGroup } from "@/components/input-group";
 import { Button } from "@/components/button";
+import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
   const [userInfo, setUserInfo] = useState({});
+  const { handleSubmit } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(userInfo);
-    e.target.reset();
+  const onSubmit = (data) => {
+    // e.preventDefault();
+    console.log(data);
+    // e.target.reset();
   };
 
   const handleChange = (e) => {
@@ -18,7 +20,7 @@ export default function LoginForm() {
   };
 
   return (
-    <form action="" className="space-y-5" onSubmit={handleSubmit}>
+    <form action="" className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
       <InputGroup
         label="پست الکترونیک"
         id="email"
