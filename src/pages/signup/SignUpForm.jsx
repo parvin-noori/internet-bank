@@ -3,25 +3,25 @@ import { InputGroup } from "@/components/input-group";
 import { Button } from "@/components/button";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import InputIcon from "react-multi-date-picker/components/input_icon";
 
 export default function SignUpForm() {
   const [step, setStep] = useState(1);
-  const [userInfo, setUserInfo] = useState({});
-  const { register, handleSubmit } = useForm();
+
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
-    // e.preventDefault();
     console.log(data);
-    // e.target.reset();
 
-    // step === 1 ? setStep(2) : navigate("/login");
-  };
-
-  const handleChange = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-    setUserInfo((prevState) => ({ ...prevState, [id]: value }));
+    step === 1 ? setStep(2) : navigate("/login");
   };
 
   const handleBack = (e) => {
@@ -34,17 +34,17 @@ export default function SignUpForm() {
       {step === 1 ? (
         <FirstForm
           onSubmit={onSubmit}
-          handleChange={handleChange}
-          register={register}
           handleSubmit={handleSubmit}
+          register={register}
+          errors={errors}
         />
       ) : (
         <SecondForm
           onSubmit={onSubmit}
-          handleChange={handleChange}
           handleBack={handleBack}
-          register={register}
           handleSubmit={handleSubmit}
+          register={register}
+          errors={errors}
         />
       )}
     </>
@@ -52,7 +52,7 @@ export default function SignUpForm() {
 }
 
 function FirstForm(props) {
-  const { handleChange, onSubmit, register, handleSubmit } = props;
+  const { onSubmit, handleSubmit, register, errors } = props;
 
   return (
     <form
@@ -60,27 +60,27 @@ function FirstForm(props) {
       className="space-y-5 h-full flex flex-col"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="space-y-5 grow sm:grow-0">
+      <div className="space-y-4 grow sm:grow-0">
         <InputGroup
           label="نام"
           id="name"
           placeholder="لطفا نام خود را وارد کنید"
-          onChange={handleChange}
-          method={register}
+          register={register}
+          errors={errors}
         />
         <InputGroup
           label="نام خانوادگی"
           id="lastName"
           placeholder="لطفا نام خانوادگی خود را وارد کنید"
-          onChange={handleChange}
-          method={register}
+          register={register}
+          errors={errors}
         />
         <InputGroup
           label="کد ملی"
           id="nationalCode"
           placeholder="لطفا کد ملی خود را وارد کنید"
-          onChange={handleChange}
-          method={register}
+          register={register}
+          errors={errors}
         />
       </div>
       <Button label="ادامه" />
@@ -94,38 +94,47 @@ function FirstForm(props) {
   );
 }
 function SecondForm(props) {
-  const { handleChange, onSubmit, handleBack, register, handleSubmit } = props;
+  const { onSubmit, handleBack, handleSubmit, register, errors } = props;
 
   return (
     <form
       action=""
       className="space-y-5 h-full flex flex-col"
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-5 grow">
-        <InputGroup
+        {/* <InputGroup
           label="تاریخ تولد"
           id="birthdate"
           placeholder="انتخاب تاریخ"
-          onChange={handleChange}
           type="date"
-          method={register}
+          register={register}
+          errors={errors}
+        /> */}
+        <DatePicker
+          value="1403/08/1"
+          render={<InputIcon />}
+          minDate="1385/08/1"
+          calendar={persian}
+          locale={persian_fa}
+          format={"YYYY/MM/DD"}
+          calendarPosition="bottom-left"
         />
         <InputGroup
           label="شماره موبایل"
           id="PhoneNumber"
           placeholder="مثال 09121212121"
-          onChange={handleChange}
           type="tel"
-          method={register}
+          register={register}
+          errors={errors}
         />
         <InputGroup
           label="ایمیل"
           id="email"
           placeholder="لطفا ایمیل خود را وارد کنید"
-          onChange={handleChange}
           type="email"
-          method={register}
+          register={register}
+          errors={errors}
         />
       </div>
       <Button label="ثبت نام" />
