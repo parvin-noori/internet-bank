@@ -6,7 +6,7 @@ import FirstForm from "./FirstForm";
 import SecondForm from "./SecondForm";
 
 export default function SignUpForm() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
   const navigate = useNavigate();
   const {

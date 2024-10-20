@@ -10,7 +10,7 @@ export default function InputGroup(props) {
   // Email regex pattern
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  const validatePhoneNumber = /^((98|\+98|0098|0)*(9)[0-9]{9})+$/;
+  const validatePhoneNumber = /((0?9)|(\+?989))\d{2}\W?\d{3}\W?\d{4}/g;
 
   const validateIranianNationalCode = (code) => {
     if (!/^\d{10}$/.test(code)) return false;
