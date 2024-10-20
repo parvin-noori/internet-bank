@@ -87,7 +87,6 @@ export default function InputGroup(props) {
         <input
           id={id}
           type={type}
-          name={id}
           placeholder={placeholder}
           className={`bg-input  rounded-[8px] py-3 px-5 border-[#4B5563]  outline-none ${inputClass}`}
           autoComplete="new-password"

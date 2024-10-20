@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { InputGroup } from "@/components/input-group";
 import { Button } from "@/components/button";
 import { useForm } from "react-hook-form";
@@ -31,7 +30,6 @@ export default function LoginForm() {
         register={register}
         errors={errors}
       />
-
       <Button label="ایجاد حساب" />
       <span className="text-[#6B7280] block">
         عضو نیستید ؟{" "}

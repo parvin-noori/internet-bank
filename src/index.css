@@ -5,10 +5,10 @@ body {
   font-family: "vazir";
 }
 .rmdp-container {
-  width: 100%;
+  /* width: 100%;
   padding: 1rem 0.75rem !important;
   background-color: #374151 !important;
-  border-radius: 8px !important;
+  border-radius: 8px !important; */
 }
 .rmdp-input {
   background-color: transparent !important;
@@ -17,4 +17,5 @@ body {
   padding: 0 !important;
   border-color: transparent !important;
   width: 100%;
+  color: white!important;
 }
