@@ -10,15 +10,31 @@ export default function InputGroup(props) {
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     phoneNumber: /((0?9)|(\+?989))\d{2}\W?\d{3}\W?\d{4}/g,
     exactlyTenDigits: /^\d{10}$/,
+    exactlyTenDigits: /^\d{10}$/,
+    onlyNumbers: /^[0-9]+$/,
+  };
+
+  // Function to convert Persian digits to English
+  const convertPersianToEnglish = (input) => {
+    const stringInput = String(input); // Ensure input is a string
+    return stringInput.replace(/[۰-۹]/g, (char) =>
+      String.fromCharCode(char.charCodeAt(0) - 1728)
+    );
   };
 
   const validateIranianNationalCode = (code) => {
-    // Check if the code is exactly 10 digits
-    if (!patterns.exactlyTenDigits.test(code)) {
-      return { isValid: false, message: "کد ملی باید دقیقا ۱۰ رقم باشد" };
+    const normalizedCode = convertPersianToEnglish(code.trim());
+
+    if (!patterns.onlyNumbers.test(normalizedCode)) {
+      return { isValid: false, message: "کد ملی باید فقط شامل اعداد باشد" };
     }
 
-    const digits = code.split("").map(Number);
+    // Check if the code is exactly 10 digits
+    if (!patterns.exactlyTenDigits.test(normalizedCode)) {
+      return { isValid: false, message: "کد ملی باید دقیقاً ۱۰ رقم باشد" }; // Must be exactly 10 digits
+    }
+
+    const digits = normalizedCode.split("").map(Number);
     const checkDigit = digits.pop();
     const sum = digits.reduce((acc, digit, idx) => acc + digit * (10 - idx), 0);
     const remainder = sum % 11;
@@ -80,6 +96,26 @@ export default function InputGroup(props) {
             message: "لطفا یک ایمیل معتبر وارد کنید",
           },
         };
+      case "password":
+        return {
+          required: "رمز عبور الزامی است",
+
+          validate: {
+            hasUpperCase: (value) =>
+              /[A-Z]/.test(value) || "باید حداقل یک حرف بزرگ داشته باشد",
+            hasLowerCase: (value) =>
+              /[a-z]/.test(value) || "باید حداقل یک حرف کوچک داشته باشد",
+            hasNumber: (value) =>
+              /\d/.test(value) || "باید حداقل یک عدد داشته باشد",
+            hasSpecialChar: (value) =>
+              /[@$!%*?&]/.test(value) ||
+              "باید حداقل یک کاراکتر خاص (@, $, !, %, *, ?, &) داشته باشد",
+          },
+          minLength: {
+            value: 8,
+            message: "رمز عبور باید حداقل ۸ کاراکتر باشد",
+          },
+        };
       default:
         return {
           required: `${fieldId} ضروری است`,
@@ -98,6 +134,7 @@ export default function InputGroup(props) {
           autoComplete="new-password"
           {...register(id, getValidateRules(id))}
           aria-invalid={errors[id] ? "true" : "false"}
+          maxLength={id === "nationalCode" ? 10 : undefined}
         />
       </div>
       {errors[id] && (
